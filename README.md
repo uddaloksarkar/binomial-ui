@@ -1,16 +1,104 @@
-# React + Vite
+# 🍎 Binomial Sampler (NumPy Backend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A real-time interactive dashboard for sampling and analyzing the **Binomial(n, p)** distribution using a **NumPy-powered backend**. This tool is designed for experimentation, visualization, and validation of binomial samplers across different regimes.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 🎯 Core Functionality
 
-## React Compiler
+* Live sampling from **Binomial(n, p)** via Python/NumPy backend
+* Continuous streaming of samples
+* Real-time histogram visualization
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 📊 Smart Visualization
 
-## Expanding the ESLint configuration
+Adaptive histogram behavior based on regime:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* **Small n (n ≤ 100)** → full support `[0, n]`
+* **Small λ (λ = np < 200)** → `[0, 2λ]`
+* **Large regime** → concentration window
+  [
+  [\lambda - \sqrt{\lambda}, \lambda + \sqrt{\lambda}]
+  ]
+
+### 🧠 Expression Support
+
+Inputs accept mathematical expressions:
+
+```
+2**52
+1e-9
+10**6
+2**-60
+```
+
+## 🔧 Backend Setup (Python)
+
+### Install dependencies
+
+```bash
+pip install fastapi uvicorn numpy
+```
+
+### Run server
+
+```bash
+uvicorn server:app --reload
+```
+
+### Required endpoints
+
+```python
+@app.post("/sample")
+def sample_binomial(params: Params):
+    return {"sample": int(np.random.binomial(params.n, params.p))}
+
+@app.post("/np")
+def compute_np(params: Params):
+    return {"np": params.n * params.p}
+```
+
+## 🌐 Frontend Setup (React + Vite)
+
+### Install
+
+```bash
+npm install
+npm install recharts
+```
+
+### Run
+
+```bash
+npm run dev
+```
+
+## 🎮 Usage
+
+1. Enter parameters:
+
+   ```
+   n = 10
+   p = 0.5
+   ```
+
+   or advanced:
+
+   ```
+   n = 2**20
+   p = 2**-10
+   ```
+
+2. Click **Start**
+
+3. Observe:
+
+   * Live sample stream
+   * Histogram evolution
+   * λ = np value
+
+4. Use:
+
+   * **Stop** → pause sampling
+   * **Reset** → clear histogram
+
