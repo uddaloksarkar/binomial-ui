@@ -1,104 +1,110 @@
 # 🍎 Binomial Sampler (NumPy Backend)
 
-A real-time interactive dashboard for sampling and analyzing the **Binomial(n, p)** distribution using a **NumPy-powered backend**. This tool is designed for experimentation, visualization, and validation of binomial samplers across different regimes.
+A real-time interactive dashboard for sampling and analyzing the **Binomial(n, p)** distribution using a **NumPy-powered backend**.
 
-## 🚀 Features
+This project supports **two modes**:
 
-### 🎯 Core Functionality
+1. 🧪 **Python Interactive Dashboard (Dash)**
+2. 🌐 **Web UI (React + FastAPI)**
 
-* Live sampling from **Binomial(n, p)** via Python/NumPy backend
-* Continuous streaming of samples
-* Real-time histogram visualization
+Designed for experimentation, visualization, and validation of binomial samplers across different regimes.
 
-### 📊 Smart Visualization
 
-Adaptive histogram behavior based on regime:
 
-* **Small n (n ≤ 100)** → full support `[0, n]`
-* **Small λ (λ = np < 200)** → `[0, 2λ]`
-* **Large regime** → concentration window
-  [
-  [\lambda - \sqrt{\lambda}, \lambda + \sqrt{\lambda}]
-  ]
+## 🧪 Python Interactive Dashboard (Dash)
 
-### 🧠 Expression Support
+A lightweight, self-contained visualization using **Dash + Plotly**.
 
-Inputs accept mathematical expressions:
 
-```
-2**52
-1e-9
-10**6
-2**-60
+```text
+main.py         # sampling loop (NumPy)
+dashboard.py    # Dash visualization
 ```
 
-## 🔧 Backend Setup (Python)
+#### ⚙️ Setup
 
-### Install dependencies
+```bash
+pip install numpy dash plotly
+```
+
+#### ▶️ Run
+
+```bash
+python main.py
+```
+
+Open:
+
+```
+http://127.0.0.1:8050
+```
+
+#### 🎮 Usage
+
+Edit parameters in `main.py`:
+
+```python
+n = 2**57
+p = 2**(-54)
+```
+
+Run and observe:
+
+* 📈 Live histogram
+* 🔢 Current parameters (n, p, λ)
+* 📊 Adaptive scaling
+
+
+## 🌐 Web UI (React + FastAPI)
+
+
+#### 🔧 Backend Setup
 
 ```bash
 pip install fastapi uvicorn numpy
 ```
 
-### Run server
+Run:
 
 ```bash
 uvicorn server:app --reload
 ```
 
-### Required endpoints
-
-```python
-@app.post("/sample")
-def sample_binomial(params: Params):
-    return {"sample": int(np.random.binomial(params.n, params.p))}
-
-@app.post("/np")
-def compute_np(params: Params):
-    return {"np": params.n * params.p}
-```
-
-## 🌐 Frontend Setup (React + Vite)
-
-### Install
+#### 🌐 Frontend Setup
 
 ```bash
 npm install
 npm install recharts
-```
-
-### Run
-
-```bash
 npm run dev
 ```
 
-## 🎮 Usage
+#### 🎮 Usage
 
 1. Enter parameters:
 
-   ```
-   n = 10
-   p = 0.5
-   ```
+```
+n = 10
+p = 0.5
+```
 
-   or advanced:
+or advanced:
 
-   ```
-   n = 2**20
-   p = 2**-10
-   ```
+```
+n = 2**20
+p = 2**-10
+```
 
 2. Click **Start**
 
 3. Observe:
 
-   * Live sample stream
-   * Histogram evolution
-   * λ = np value
+* Live sample stream
+* Histogram updates
+* λ = np display
 
-4. Use:
+4. Controls:
 
-   * **Stop** → pause sampling
-   * **Reset** → clear histogram
+* **Start** → begin sampling
+* **Stop** → pause
+* **Reset** → clear histogram
 
