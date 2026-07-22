@@ -21,7 +21,7 @@ def sampling_loop(n, p, samples, stop_flag):
 if __name__ == "__main__":
    
     n = 2**57
-    p = 2**(-54) # 2**(-54)
+    p = 2**(-54)
 
     samples = []
     stop_flag = [False] 

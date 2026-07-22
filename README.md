@@ -17,7 +17,7 @@ A lightweight, self-contained visualization using **Dash + Plotly**.
 
 
 ```text
-main.py         # sampling loop (NumPy)
+binomial-cli.py         # sampling loop (NumPy)
 dashboard.py    # Dash visualization
 ```
 
@@ -30,7 +30,7 @@ pip install numpy dash plotly
 #### ▶️ Run
 
 ```bash
-python main.py
+python binomial-cli.py
 ```
 
 Open:
@@ -41,7 +41,7 @@ http://127.0.0.1:8050
 
 #### 🎮 Usage
 
-Edit parameters in `main.py`:
+Edit parameters in `binomial-cli.py`:
 
 ```python
 n = 2**57

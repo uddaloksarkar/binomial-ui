@@ -25,7 +25,7 @@ def run_binomial_dashboard(n, p, samples):
         Input("interval", "n_intervals")
     )
     def update_histogram(_):
-        data = samples[-1000:]
+        data = samples[-10000:]
         lam = n * p
 
         hist = go.Histogram(
